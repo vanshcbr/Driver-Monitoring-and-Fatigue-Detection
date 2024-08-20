@@ -1,1 +1,1 @@
-# Driver-Monitoring-and-Fatigue-Detection
+The Driver Monitoring and Fatigue Detection project is focused on developing a system that monitors the driver’s state in real-time to detect signs of fatigue, drowsiness, or distraction. The primary goal of this project is to enhance road safety by alerting the driver or taking necessary actions when signs of fatigue or distraction are detected.
