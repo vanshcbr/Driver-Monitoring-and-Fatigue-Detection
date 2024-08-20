@@ -39,18 +39,27 @@ class DriverMonitorGUI:
         self.label.pack(pady=20)
         self.alert_button = Button(root, text="Stop Alert", command=self.stop_alert, state="disabled")
         self.alert_button.pack(pady=20)
+        self.alert_thread = None
+        self.alert_active = False
 
     def display_alert(self):
         self.label.config(text="Fatigue Detected! Wake Up!", fg="red")
         self.alert_button.config(state="normal")
-        self.play_alert_sound()
+        if not self.alert_active:
+            self.alert_active = True
+            self.alert_thread = threading.Thread(target=self.play_alert_sound)
+            self.alert_thread.start()
 
     def stop_alert(self):
         self.label.config(text="Monitoring Driver...", fg="black")
         self.alert_button.config(state="disabled")
+        self.alert_active = False  # Stop the loop
+        if self.alert_thread is not None:
+            self.alert_thread.join()  # Wait for the thread to finish
 
     def play_alert_sound(self):
-        threading.Thread(target=lambda: playsound("alert.wav")).start()
+        while self.alert_active:  # Play sound in a loop
+            playsound("alert.wav")
 
 # Monitor driver fatigue and raise alert
 def monitor_driver():
